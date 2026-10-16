@@ -1,32 +1,39 @@
 package uk.ac.westminster.products_api;
 
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import java.util.Optional;
 
 @Service
+public class productService {
 
-public class productService{
-
-    private final List<Products> Products = new ArrayList<>();
-
+    private List<Products> products = new ArrayList<>();
     private Long nextId = 1L;
 
     public List<Products> getAllProducts() {
-        return Products;
-
+        return products;
     }
+
     public Products addProduct(Products product) {
         product.setId(nextId++);
-        Products.add(product);
+        products.add(product);
         return product;
-
     }
 
-    public void deleteById(Long id) {
-        Products.removeIf(products ->products.getId().equals(id) );
+    public Optional<Products> getProductById(Long id) {
+        return products.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst();
     }
+
+    public void deleteProduct(Long id) {
+        products.removeIf(p -> p.getId().equals(id));
+    }
+
+    public List<Products> findByName(String name) {
+        return products.stream()
+                .filter(p -> p.getName().contains(name))
+                .toList();
+    }
+}
