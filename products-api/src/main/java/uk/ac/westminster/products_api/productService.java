@@ -11,6 +11,16 @@ public class productService {
     private List<Products> products = new ArrayList<>();
     private Long nextId = 1L;
 
+    public productService() {
+        products.add(new DigitalProduct(
+                nextId++, "Clean Code (E-book)", 29.99,
+                "/downloads/clean-code.pdf", 4.2));
+
+        products.add(new PhysicalProduct(
+                nextId++, "27-inch Monitor", 249.99,
+                5.4, "61cm x 41cm x 18cm"));
+    }
+
     public List<Products> getAllProducts() {
         return products;
     }
@@ -36,4 +46,5 @@ public class productService {
                 .filter(p -> p.getName().contains(name))
                 .toList();
     }
+
 }
